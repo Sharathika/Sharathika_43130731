@@ -1,0 +1,52 @@
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            background-color:rgb(238, 112, 112);
+            color: rgb(41, 37, 37);
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+        .about-box {
+            width: 40%;
+            background-color: #f5ece0;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: left;
+            margin: 50px;
+        }
+        .login-box {
+            width: 30%;
+            text-align: center;
+            border: 2px solid;
+           margin: 50px;
+        }
+        .login-box h2 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .login-box button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .footer {
+            background-color:rgb(238, 112, 112);
+            color: rgb(41, 37, 37);
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
