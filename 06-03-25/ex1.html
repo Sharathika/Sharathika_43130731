@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+   h1{
+    text-align: center;
+    margin: 100px;
+   }
+  
+    #result{
+        border-radius: 100px;
+        border: 1px solid;
+        display: inline;
+        padding: 80px;
+        margin-left: 550px;
+        background-color: aquamarine;
+    }
+    #but1{
+        border-radius: 100px;
+        border: 1px solid;
+        display: inline;
+        padding: 40px;
+        margin-left:0px;
+    }
+    #but2{
+    border-radius: 100px;
+        border: 1px solid;
+        display: inline;
+        padding: 40px;
+        margin-left:0px;
+}
+
+
+</style>
+<body>
+    <div class="container">
+    <div><h1>Counter</h1></div>
+    <div>
+        <p id="result">0</p>
+        <button  onclick="add()" id="but1">+1</button>
+         <button onclick="sub()" id="but2">-1</button>
+        <button onclick="reset()" id="but3">reset</button></p>
+    </div>
+    </div>
+    <script>
+        let count=0
+     function add(){
+        count++
+        document.getElementById('result').innerHTML=count
+     }
+     function sub(){
+        count--
+        document.getElementById('result').innerHTML=count
+     }
+     function reset(){
+        count=0
+        document.getElementById('result').innerHTML=count
+     }
+    </script>
+</body>
+</html>
