@@ -1,0 +1,69 @@
+.maincontainer{
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 10px;
+
+}
+img{
+    width:100px;
+    margin-left: 820px;
+    margin-top: 0px;
+    border-radius: 50px;
+}
+.details{
+    padding-top: px;
+}
+.qualification{
+    border: 1px solid;
+    padding: 15px;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    margin-top: 0px;
+}
+.ed{
+
+ text-align: center;
+}
+.box{
+    align-items: center;
+    text-align: center;
+    border: 1px solid;
+    width: 350px;
+    padding: 15px;
+    background-color: antiquewhite;
+}
+.skills{
+    display: flex;
+    gap: 100px;
+    margin-top: 20px;
+}
+.box1{
+    align-items: center;
+    text-align: center;
+    border: 1px solid;
+    width: 200px;
+    padding: 15px;
+    gap: 200px;
+    margin-left:180px;
+}
+.box2{
+    align-items: center;
+    text-align: center;
+    border: 1px solid;
+    width: 200px;
+    padding: 15px;
+    gap: 200px;
+}
+.box3{
+    align-items: center;
+    text-align: center;
+    border: 1px solid;
+    width: 200px;
+    padding: 15px;
+    gap: 200px;
+}
+
