@@ -1,0 +1,44 @@
+CREATE DATABASE company;
+SHOW DATABASES;
+USE company;
+
+create table persons(
+id int not null,
+lastname varchar(255)not null,
+firstname varchar(255)not null,
+age int
+);
+show tables from company;
+desc persons;
+insert into persons values (1001,'R','sharu',19),(1002,'R','moni',20),(1003,'R','rashmi',20),(1004,'G','shiva',22);
+select * from persons;
+alter table persons
+modify age int not null;
+
+alter table persons
+add unique (ID);
+
+alter table persons
+add check (age>=18 and age<=130 );
+
+
+
+
+//foreign key...
+
+create database amazon;
+use amazon;
+ create table category(
+cid int primary key,
+cname varchar(35) not null
+ );
+ insert into category values (1001,'electronics'),(1002,'furnitures'),(1003,'footwear');
+ select * from category;
+ create table product(
+ pid int primary key,
+ pname varchar(35) not null,
+ cid int not null,
+ foreign key (cid) references category (cid)
+ );
+ insert into product values(900,'smart watch',1001),(901,'chair',1002),(902,'shoes',1003),(903,'stooles',1002),(904,'iphone',1001);
+ select * from product;
