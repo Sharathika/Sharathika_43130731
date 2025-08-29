@@ -1,0 +1,31 @@
+create database student;
+use student;
+create table student(
+sid int,
+sname varchar(25),
+sdept varchar(25)
+);
+insert into student values(001,'sharu','ece'),(002,'rashmi','cse'),(003,'shiva','it'),(004,'moni','eee');
+select *from student;
+create table valaddcourse(
+cid int not null,
+cname varchar(25)
+);
+insert into valaddcourse values(101,'vlsi design fab');
+select*from valaddcourse;
+select * from student cross join valaddcourse;
+create table exresults(
+sid int not null ,
+smarks int
+);
+insert into exresults values(001,99),(003,89),(004,75), (005,65);
+select *from exresults;
+select * from student inner join exresults where student.sid = exresults.sid;
+
+select * from student natural join exresults where student.sid = exresults.sid;
+
+select * from student left outer join exresults on student.sid = exresults.sid;
+select * from student right outer join exresults on student.sid = exresults.sid;
+select * from student left outer join exresults on student.sid = exresults.sid
+union 
+select * from student right outer join exresults on student.sid = exresults.sid;
