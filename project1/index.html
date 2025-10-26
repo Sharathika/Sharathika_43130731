@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Task Board</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(120deg, #b31217, #2b6cb0);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 95%;
+      margin: 20px auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+
+    .header-left h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .header-left p {
+      font-size: 0.9rem;
+      color: #f5f5f5;
+      max-width: 400px;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .header-right input,
+    .header-right textarea {
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      width: 160px;
+    }
+
+    .header-right button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .header-right button:hover {
+      background-color: #c0392b;
+    }
+
+    main {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .column {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      width: 23%;
+      padding: 1rem;
+      min-height: 350px;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s;
+    }
+
+    .column h2 {
+      color: #fff;
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 0.3rem;
+      text-align: center;
+    }
+
+    .task-list {
+      min-height: 200px;
+      padding: 10px;
+      background-color: transparent;
+      transition: background-color 0.2s ease;
+    }
+
+    .task-list.highlight {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .task {
+      background: #fff;
+      color: #333;
+      padding: 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.6rem;
+      cursor: grab;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .task.dragging {
+      opacity: 0.5;
+    }
+
+    .task h3 {
+      font-size: 0.95rem;
+      color: #2b6cb0;
+    }
+
+    .task p {
+      font-size: 0.85rem;
+      color: #444;
+      margin-top: 0.3rem;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: #e74c3c;
+      float: right;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    @media (max-width: 900px) {
+      .column {
+        width: 48%;
+        margin-bottom: 1rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+      .header-right {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>Task Management Board</h1>
+        <p>Organize your tasks across Backlog, Doing, Done, and Won’t Do.</p>
+      </div>
+      <div class="header-right">
+        <input type="text" id="title" placeholder="Task Title" />
+        <textarea id="description" placeholder="Description"></textarea>
+        <button id="addBtn">Add Task</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="column">
+        <h2>Backlog</h2>
+        <div class="task-list" id="backlogList"></div>
+      </div>
+      <div class="column">
+        <h2>Doing</h2>
+        <div class="task-list" id="doingList"></div>
+      </div>
+      <div class="column">
+        <h2>Done</h2>
+        <div class="task-list" id="doneList"></div>
+      </div>
+      <div class="column">
+        <h2>Won’t Do</h2>
+        <div class="task-list" id="wontdoList"></div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById("addBtn");
+    const titleInput = document.getElementById("title");
+    const descInput = document.getElementById("description");
+
+    const lists = {
+      backlog: document.getElementById("backlogList"),
+      doing: document.getElementById("doingList"),
+      done: document.getElementById("doneList"),
+      wontdo: document.getElementById("wontdoList")
+    };
+
+    let tasks = JSON.parse(localStorage.getItem("kanbanTasks")) || [];
+    renderTasks();
+
+    addBtn.addEventListener("click", () => {
+      const title = titleInput.value.trim();
+      const desc = descInput.value.trim();
+      if (!title) return alert("Please enter a title.");
+
+      const newTask = { id: Date.now(), title, desc, status: "backlog" };
+      tasks.push(newTask);
+      saveTasks();
+      renderTasks();
+      titleInput.value = "";
+      descInput.value = "";
+    });
+
+    function renderTasks() {
+      Object.values(lists).forEach(list => (list.innerHTML = ""));
+      tasks.forEach(task => {
+        const div = document.createElement("div");
+        div.classList.add("task");
+        div.draggable = true;
+        div.dataset.id = task.id;
+        div.innerHTML = `
+          <button class="delete-btn" onclick="deleteTask(${task.id})">×</button>
+          <h3>${task.title}</h3>
+          <p>${task.desc}</p>
+        `;
+        lists[task.status].appendChild(div);
+      });
+      addDragAndDrop();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveTasks();
+      renderTasks();
+    }
+
+    function addDragAndDrop() {
+      const allTasks = document.querySelectorAll(".task");
+      const allLists = document.querySelectorAll(".task-list");
+
+      allTasks.forEach(task => {
+        task.addEventListener("dragstart", e => {
+          e.dataTransfer.setData("text/plain", task.dataset.id);
+          task.classList.add("dragging");
+        });
+
+        task.addEventListener("dragend", e => {
+          task.classList.remove("dragging");
+        });
+      });
+
+      allLists.forEach(list => {
+        list.addEventListener("dragover", e => {
+          e.preventDefault();
+          list.classList.add("highlight");
+        });
+
+        list.addEventListener("dragleave", () => {
+          list.classList.remove("highlight");
+        });
+
+        list.addEventListener("drop", e => {
+          e.preventDefault();
+          list.classList.remove("highlight");
+          const id = e.dataTransfer.getData("text/plain");
+          const task = tasks.find(t => t.id == id);
+          if (!task) return;
+
+          if (list.id === "backlogList") task.status = "backlog";
+          else if (list.id === "doingList") task.status = "doing";
+          else if (list.id === "doneList") task.status = "done";
+          else if (list.id === "wontdoList") task.status = "wontdo"; // fixed this
+
+          saveTasks();
+          renderTasks();
+        });
+      });
+    }
+
+    function saveTasks() {
+      localStorage.setItem("kanbanTasks", JSON.stringify(tasks));
+    }
+  </script>
+</body>
+</html>
