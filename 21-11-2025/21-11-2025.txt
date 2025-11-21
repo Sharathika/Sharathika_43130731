@@ -1,0 +1,172 @@
+//Overloading..
+
+package nov21;
+	class Operation {
+	    int add(int a, int b) {
+	        return a + b;
+	    }
+	    int add(int a, int b, int c) {
+	        return a + b + c;
+	    }
+
+	  
+	    double add(double a, double b) {
+	        return a + b;
+	    }
+	}
+
+	public class Overloading {
+	    public static void main(String[] args) {
+
+	        Operation obj = new Operation();
+
+	        System.out.println("Addition of 2 integers: " + obj.add(10, 20));
+	        System.out.println("Addition of 3 integers: " + obj.add(10, 20, 30));
+	        System.out.println("Addition of 2 doubles : " + obj.add(5.5, 6.7));
+	    }
+	}
+
+
+//overriding...
+
+package nov21;
+
+	class Animal {
+	    void sound() {
+	        System.out.println("Animals make sound");
+	    }
+	}
+
+	class Dog extends Animal {
+	    @Override
+	    void sound() {
+	        System.out.println("Dog barks");
+	    }
+	}
+
+	class Cat extends Animal {
+	    @Override
+	    void sound() {
+	        System.out.println("Cat meows");
+	    }
+	}
+
+	public class Overriding {
+	    public static void main(String[] args) {
+
+	        Animal a;
+
+	        a = new Dog();    
+	        a.sound();        
+
+	        a = new Cat();    
+	        a.sound();       
+	    }
+	}
+
+
+//Constructors..
+
+package nov21;
+
+class Car {
+
+    String brand;
+
+    Car() {
+        brand = "Unknown";
+    }
+
+    Car(String b) {
+        brand = b;
+    }
+}
+
+public class Constructors {
+    public static void main(String[] args) {
+        Car c1 = new Car();
+        Car c2 = new Car("Honda");
+
+        System.out.println(c1.brand);
+        System.out.println(c2.brand);
+    }
+}
+
+
+//Abstract..
+
+package nov21;
+abstract class Shape {
+
+ abstract void draw();
+}
+
+class Circle extends Shape {
+ void draw() {
+     System.out.println("Drawing a Circle");
+ }
+}
+
+public class Abstract {
+ public static void main(String[] args) {
+
+     Shape s = new Circle(); 
+     s.draw();               
+ }
+}
+
+
+//Encapsulation...
+
+package nov21;
+
+class Student {
+
+    private String name;
+    private int age;
+
+    public void setData(String n, int a) {
+        name = n;
+        age = a;
+    }
+
+  
+    public void getData() {
+        System.out.println("Name: " + name);
+        System.out.println("Age : " + age);
+    }
+}
+
+public class Encapsulation {
+    public static void main(String[] args) {
+
+        Student s = new Student();
+
+      
+        s.setData("Sharathika", 20);
+
+        
+        s.getData();
+    }
+}
+
+//Exception...
+
+package nov21;
+
+public class Exception {
+    public static void main(String[] args) {
+
+        try {
+            int a = 10;
+            int b = 0;
+            int result = a / b;   
+            System.out.println(result);
+        }
+        catch (ArithmeticException e) {
+            System.out.println("Error: Cannot divide a number by zero!");
+        }
+
+        System.out.println("Program continues...");
+    }
+}
